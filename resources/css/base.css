@@ -1,0 +1,24 @@
+@layer base {
+    body {
+        @apply text-black bg-gray-50 dark:text-gray-200 dark:bg-gray-950 text-sm font-sans antialiased;
+    }
+
+    *,
+    ::after,
+    ::before,
+    ::backdrop,
+    ::file-selector-button {
+        @apply border-gray-200 outline-gray-200 dark:border-gray-900 dark:outline-gray-900;
+    }
+
+    button,
+    a,
+    textarea,
+    input {
+        @apply outline-none focus:outline-none;
+    }
+
+    button {
+        @apply cursor-pointer;
+    }
+}
