@@ -1,4 +1,4 @@
-import '../css/app.css';
+import '@/../css/app.css';
 import 'vue-sonner/style.css';
 
 import { createApp, h, nextTick } from 'vue';
