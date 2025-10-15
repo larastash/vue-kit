@@ -1,8 +1,8 @@
 <template>
-    <Toaster :visibleToasts="5" position="bottom-center" :duration="Infinity" offset="16px" :toastOptions="{
+    <Toaster :visibleToasts="5" position="bottom-center" :duration="5000" offset="16px" :toastOptions="{
         unstyled: true,
         classes: {
-            toast: 'bg-white dark:bg-black p-4 rounded-brand border flex items-center gap-4 min-w-96 shadow-xl shadow-gray-950/5 [&:has(.description)]:items-start',
+            toast: 'bg-white dark:bg-black p-4 rounded-brand border flex items-center gap-4 md:min-w-96 shadow-xl shadow-gray-950/5 [&:has(.description)]:items-start',
             content: 'flex-1',
             title: 'text-black dark:text-white text-sm font-medium hyphens-auto',
             description: 'description mt-1 text-gray-500 dark:text-gray-500 text-sm hyphens-auto',
@@ -36,4 +36,5 @@
 <script setup>
 import { BanIcon, CheckCheckIcon, CircleAlertIcon, InfoIcon, Loader2Icon, Trash2Icon, XIcon } from 'lucide-vue-next';
 import { Toaster } from 'vue-sonner';
+import 'vue-sonner/style.css';
 </script>
