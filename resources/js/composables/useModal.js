@@ -54,7 +54,7 @@ export const useModal = () => {
      */
     const closeAll = () => {
         while (stack.value.length > 0) {
-            close(); // Ensures callbacks are fired for each
+            close();
         }
     };
 

@@ -45,21 +45,11 @@ export const useFlash = () => {
     });
 
     return {
-        /** The raw reactive flash object */
         flash,
 
         has,
         get,
         all,
         isEmpty,
-
-        /** Shortcut for getting the 'success' message */
-        success: computed(() => flash.value?.success),
-
-        /** Shortcut for getting the 'error' message */
-        error: computed(() => flash.value?.error),
-
-        /** Shortcut for getting the 'warning' message */
-        warning: computed(() => flash.value?.warning),
     };
 };

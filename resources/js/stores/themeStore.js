@@ -10,7 +10,6 @@ const validThemes = ['light', 'dark', 'system'];
  */
 const defaultTheme = 'system';
 
-// Export constants for use in components/composables
 export { validThemes, defaultTheme };
 
 export const useThemeStore = defineStore('themeStore', {
@@ -78,8 +77,6 @@ export const useThemeStore = defineStore('themeStore', {
         /**
          * Computes whether the interface should currently look dark.
          * Useful for conditional logic in JS (e.g. charts colors).
-         *
-         * @returns {boolean} True if visually dark.
          */
         isDark: (state) => {
             if (state.currentTheme === 'system') {
@@ -95,7 +92,7 @@ export const useThemeStore = defineStore('themeStore', {
      * Saves 'currentTheme' to localStorage automatically.
      */
     persist: {
-        key: 'theme_preference', // Explicit key name is safer than auto-generated ones
-        paths: ['currentTheme'], // Only persist the preference, not derived state
+        key: 'theme',
+        paths: ['currentTheme'],
     },
 });
