@@ -13,7 +13,7 @@
                     <button @click="data.count++" class="px-2.5 py-0.5 rounded-brand border">
                         plus
                     </button>
-                    <button @click="data.count++" class="px-2.5 py-0.5 rounded-brand border">
+                    <button @click="data.count--" class="px-2.5 py-0.5 rounded-brand border">
                         minus
                     </button>
                     <button @click="data.count = data.count * 2" class="px-2.5 py-0.5 rounded-brand border">
