@@ -72,5 +72,4 @@ if (! function_exists('plural')) {
 
         return $includeNumber ? $n . ' ' . $word : $word;
     }
-
 }
