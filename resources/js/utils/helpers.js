@@ -24,31 +24,31 @@
  */
 
 export function plural(n, forms, includeNumber = true) {
-  if (!Array.isArray(forms) || forms.length !== 3) {
-    throw new Error('Forms array must contain exactly 3 elements');
-  }
-
-  const absN = Math.abs(n);
-  let word;
-
-  if (!Number.isInteger(absN)) {
-    word = forms[1];
-  } else {
-    const lastDigit = absN % 10;
-    const lastTwoDigits = absN % 100;
-
-    if (lastDigit === 1 && lastTwoDigits !== 11) {
-      word = forms[0];
-    } else if (
-      lastDigit >= 2 &&
-      lastDigit <= 4 &&
-      (lastTwoDigits < 10 || lastTwoDigits >= 20)
-    ) {
-      word = forms[1];
-    } else {
-      word = forms[2];
+    if (!Array.isArray(forms) || forms.length !== 3) {
+        throw new Error('Forms array must contain exactly 3 elements');
     }
-  }
 
-  return includeNumber ? `${n} ${word}` : word;
+    const absN = Math.abs(n);
+    let word;
+
+    if (!Number.isInteger(absN)) {
+        word = forms[1];
+    } else {
+        const lastDigit = absN % 10;
+        const lastTwoDigits = absN % 100;
+
+        if (lastDigit === 1 && lastTwoDigits !== 11) {
+            word = forms[0];
+        } else if (
+            lastDigit >= 2 &&
+            lastDigit <= 4 &&
+            (lastTwoDigits < 10 || lastTwoDigits >= 20)
+        ) {
+            word = forms[1];
+        } else {
+            word = forms[2];
+        }
+    }
+
+    return includeNumber ? `${n} ${word}` : word;
 }

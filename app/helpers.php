@@ -46,27 +46,25 @@ if (! function_exists('plural')) {
      */
     function plural(int|float $n, array $forms, bool $includeNumber = true): string
     {
-        // Validate that we have exactly 3 forms
         if (count($forms) !== 3) {
             throw new InvalidArgumentException('Forms array must contain exactly 3 elements');
         }
 
-        // Handle negative numbers
         $absN = abs($n);
 
         if (is_float($absN)) {
-            $word = $forms[1]; // Fractional numbers: 1.5 apples
+            $word = $forms[1];
         } else {
             $lastDigit = $absN % 10;
             $lastTwoDigits = $absN % 100;
 
             if ($lastDigit == 1 && $lastTwoDigits != 11) {
-                $word = $forms[0]; // 1, 21, 31... apple (but not 11)
+                $word = $forms[0];
             } elseif ($lastDigit >= 2 && $lastDigit <= 4 &&
                     ($lastTwoDigits < 10 || $lastTwoDigits >= 20)) {
-                $word = $forms[1]; // 2-4, 22-24... apples (but not 12-14)
+                $word = $forms[1];
             } else {
-                $word = $forms[2]; // 0, 5-20, 25-30... apples
+                $word = $forms[2];
             }
         }
 
