@@ -1,4 +1,4 @@
-import { useThemeStore } from '@js/stores/themeStore';
+import { useThemeStore } from '@/stores/themeStore';
 import { storeToRefs } from 'pinia';
 
 /**

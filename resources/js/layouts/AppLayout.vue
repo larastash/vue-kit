@@ -6,5 +6,5 @@
 
 <script setup>
 import Modals from '@/components/Modals.vue';
-import Toaster from '@js/components/Toaster.vue';
+import Toaster from '@/components/Toaster.vue';
 </script>

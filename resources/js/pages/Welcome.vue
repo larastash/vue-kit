@@ -68,9 +68,9 @@
 
 <script setup>
 import { Head } from '@inertiajs/vue3';
-import AppLayout from '@js/layouts/AppLayout.vue';
+import AppLayout from '@/layouts/AppLayout.vue';
 import { ExternalLinkIcon, MoonIcon, SquareArrowOutUpRightIcon, SunIcon, SunMoonIcon } from 'lucide-vue-next';
-import { useTheme } from '@js/composables/useTheme';
+import { useTheme } from '@/composables/useTheme';
 import { toast } from 'vue-sonner';
 import { onMounted } from 'vue';
 import { useModal } from '@/composables/useModal';
