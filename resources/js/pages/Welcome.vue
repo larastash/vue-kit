@@ -32,7 +32,7 @@
                         </p>
                     </div>
                     <a href="https://github.com/larastash/vue-kit" target="_blank" rel="noopener noreferrer" class="text-gray-500 dark:text-gray-600 hover:text-black dark:hover:text-white flex items-center gap-2">
-                        <ExternalLinkIcon name="lucide-external-link" class="shrink-0 size-4" />
+                        <ExternalLinkIcon class="shrink-0 size-4" />
                         <span>
                             larastash/vue-kit
                         </span>
