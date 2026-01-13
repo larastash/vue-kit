@@ -24,7 +24,7 @@ module.exports = {
                 success: colors.green,
                 danger: colors.red,
                 // white: '#F2F0EF',
-                black: '#121212',
+                black: '#101010',
                 gray: colors.neutral,
             },
             borderRadius: {

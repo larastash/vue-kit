@@ -1,4 +1,4 @@
-import '@/../css/app.css';
+import '@css/app.css';
 import 'vue-sonner/style.css';
 
 import { createApp, h, nextTick } from 'vue';
@@ -7,7 +7,7 @@ import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { createPinia } from 'pinia';
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate';
 import { ZiggyVue } from 'ziggy-js';
-import { useTheme } from '@/composables/useTheme';
+import { useTheme } from '@js/composables/useTheme';
 
 // Pinia
 const pinia = createPinia();
@@ -34,8 +34,8 @@ createInertiaApp({
         });
     },
     progress: {
-        delay: 250,
-        color: 'black',
+        delay: 300,
+        color: 'var(--progress-color)',
         includeCSS: true,
         showSpinner: false,
     },
