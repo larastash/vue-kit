@@ -2,6 +2,29 @@
     <Head title="Welcome" />
 
     <AppLayout>
+        <div class="absolute top-4 left-4 flex items-center gap-4">
+            <Scope
+                :data="{ count: 10, double: 0 }"
+                :init="(data) => data.double = data.count * 2"
+                :effect="(data) => data.double = data.count * 2"
+                v-slot="{ data }"
+            >
+                <div class="flex items-center gap-2">
+                    <button @click="data.count++" class="px-2.5 py-0.5 rounded-brand border">
+                        plus
+                    </button>
+                    <button @click="data.count++" class="px-2.5 py-0.5 rounded-brand border">
+                        minus
+                    </button>
+                    <button @click="data.count = data.count * 2" class="px-2.5 py-0.5 rounded-brand border">
+                        double
+                    </button>
+                    <code>
+                        {{ data }}
+                    </code>
+                </div>
+            </Scope>
+        </div>
         <div class="absolute top-4 right-4 flex items-center gap-4">
             <button @click="showModal()" class="block text-black dark:text-white">
                 <SquareArrowOutUpRightIcon class="shrink-0 size-5" />
@@ -52,6 +75,7 @@ import { toast } from 'vue-sonner';
 import { onMounted } from 'vue';
 import { useModal } from '@/composables/useModal';
 import ExampleModal from '@/components/modals/ExampleModal.vue';
+import Scope from '@/components/Scope.vue';
 
 const props = defineProps({
     quote: String,
