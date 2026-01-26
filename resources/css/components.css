@@ -1,6 +1,6 @@
 @layer components {
     #nprogress .bar {
-        @apply !bg-[color:var(--progress-color)];
+        @apply bg-(--progress-color)!;
     }
 
     #nprogress .peg {
