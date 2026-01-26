@@ -44,7 +44,7 @@ class HandleInertiaRequests extends Middleware
                     }
 
                     return [
-                        ...$request->user(),
+                        ...$request->user()->toArray(),
                     ];
                 },
             ],
