@@ -1,55 +1,75 @@
+import { computed, watch } from 'vue';
 import { usePage } from '@inertiajs/vue3';
-import { computed } from 'vue';
+import { toast } from 'vue-sonner';
 
-/**
- * Provides access to Inertia flash messages.
- */
 export const useFlash = () => {
     const page = usePage();
 
-    /**
-     * The reactive flash object containing all messages from the backend.
-     * Guaranteed to be an object (empty if null).
-     */
-    const flash = computed(() => page.props.flash || {});
+    const flash = computed(() => page.props?.flash ?? {});
 
-    /**
-     * Checks if a specific flash message key exists.
-     */
     const has = (key) => {
-        const messages = flash.value;
-        return messages
-            ? (messages[key] !== undefined && messages[key] !== null)
-            : false;
+        const value = flash.value?.[key];
+        return value !== undefined && value !== null && value !== '';
     };
 
-    /**
-     * Retrieves a specific flash message.
-     */
-    const get = (key, defaultValue = null) => {
-        return flash.value?.[key] ?? defaultValue;
-    };
-
-    /**
-     * Returns all flash messages as a raw object.
-     * Useful for debugging or iterating over all notifications.
-     */
+    const get = (key, defaultValue = null) => flash.value?.[key] ?? defaultValue;
     const all = () => flash.value;
-
-    /**
-     * Checks if there are absolutely no flash messages.
-     * Useful for conditionally rendering a notification container.
-     */
-    const isEmpty = computed(() => {
-        return Object.keys(flash.value).length === 0;
-    });
+    const isEmpty = computed(() => Object.keys(flash.value).length === 0);
 
     return {
         flash,
-
         has,
         get,
         all,
         isEmpty,
     };
+};
+
+/**
+ * Маппинг ключей Laravel flash → тип vue-sonner toast.
+ * Поддерживает: success, error, warning, info, message.
+ */
+const flashToastMap = {
+    success: 'success',
+    error: 'error',
+    warning: 'warning',
+    info: 'info',
+    message: 'message',
+};
+
+/**
+ * Авто-показ тостов из Inertia flash.
+ *
+ * Вызови один раз в AppLayout — и все flash-сообщения из Laravel
+ * будут автоматически показаны как тосты.
+ *
+ * @example
+ * // В AppLayout.vue:
+ * import { useFlashToasts } from '@/composables/useFlash';
+ * useFlashToasts();
+ *
+ * // В контроллере Laravel:
+ * return back()->with('success', 'Сохранено!');
+ */
+export const useFlashToasts = () => {
+    const page = usePage();
+
+    watch(
+        () => page.props?.flash,
+        (flash) => {
+            if (!flash) return;
+
+            for (const [key, type] of Object.entries(flashToastMap)) {
+                const message = flash[key];
+                if (!message) continue;
+
+                if (type === 'message') {
+                    toast(message);
+                } else {
+                    toast[type](message);
+                }
+            }
+        },
+        { immediate: true },
+    );
 };

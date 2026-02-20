@@ -1,20 +1,24 @@
-import { ref, computed, markRaw, watch } from 'vue';
+import { computed, markRaw, ref, watch } from 'vue';
 
-// Singleton state (shared across all components)
 const stack = ref([]);
 
-export const useModal = () => {
+const createId = () => (typeof crypto !== 'undefined' && crypto.randomUUID ? crypto.randomUUID() : `${Date.now()}-${Math.random().toString(16).slice(2)}`);
 
-    /**
-     * Opens a new modal and places it on top of the stack.
-     *
-     * @param {Object} component - Vue component definition.
-     * @param {Object} [props={}] - Props passed to the component.
-     * @param {Object} [options={}] - Config: { onClose: Function, id: String }.
-     * @returns {string} The ID of the opened modal.
-     */
+const updateBodyScrollLock = () => {
+    if (typeof document === 'undefined') return;
+    const hasOpen = stack.value.length > 0;
+    const scrollbar = window.innerWidth - document.documentElement.clientWidth;
+
+    document.body.style.overflow = hasOpen ? 'hidden' : '';
+    document.body.style.paddingRight = hasOpen && scrollbar ? `${scrollbar}px` : '';
+    document.body.dataset.modalOpen = hasOpen ? 'true' : 'false';
+};
+
+watch(() => stack.value.length, updateBodyScrollLock, { immediate: true });
+
+export const useModal = () => {
     const open = (component, props = {}, options = {}) => {
-        const id = options.id || (Date.now() + Math.random().toString(36).substr(2, 9));
+        const id = options.id || createId();
 
         stack.value.push({
             id,
@@ -26,91 +30,49 @@ export const useModal = () => {
         return id;
     };
 
-    /**
-     * Closes the TOP-MOST modal (Last In, First Out).
-     * Standard 'Back' button behavior.
-     */
-    const close = () => {
+    const close = (reason = 'manual') => {
         if (stack.value.length === 0) return;
         const modal = stack.value.pop();
-        modal.options?.onClose?.();
+        modal.options?.onClose?.(reason);
     };
 
-    /**
-     * Closes a specific modal by its ID.
-     * Useful if a modal needs to close itself but isn't necessarily the top one.
-     */
-    const closeById = (id) => {
-        const index = stack.value.findIndex(m => m.id === id);
+    const closeById = (id, reason = 'manual') => {
+        const index = stack.value.findIndex((m) => m.id === id);
         if (index !== -1) {
             const [modal] = stack.value.splice(index, 1);
-            modal.options?.onClose?.();
+            modal.options?.onClose?.(reason);
         }
     };
 
-    /**
-     * Closes ALL currently open modals.
-     * Useful on route changes (e.g. navigation guard).
-     */
-    const closeAll = () => {
-        while (stack.value.length > 0) {
-            close();
+    const closeAll = (reason = 'manual') => {
+        while (stack.value.length) {
+            close(reason);
         }
     };
 
-    /**
-     * Replaces the top-most modal with a new one.
-     * Useful for multi-step wizards (Step 1 -> Step 2) to avoid stack buildup.
-     */
     const replace = (component, props = {}, options = {}) => {
-        if (stack.value.length > 0) {
-            // Remove top without triggering onClose (optional decision, usually safer)
+        if (stack.value.length) {
             stack.value.pop();
         }
         return open(component, props, options);
     };
 
-    /**
-     * Updates the props of the top-most modal or a specific modal by ID.
-     * Useful for loading states inside the modal (e.g. changing 'isLoading' prop).
-     */
     const updateProps = (newProps, id = null) => {
-        if (stack.value.length === 0) return;
-
-        let modal;
-        if (id) {
-            modal = stack.value.find(m => m.id === id);
-        } else {
-            modal = stack.value[stack.value.length - 1]; // Top modal
-        }
+        const modal = id
+            ? stack.value.find((m) => m.id === id)
+            : stack.value[stack.value.length - 1];
 
         if (modal) {
             modal.props = { ...modal.props, ...newProps };
         }
     };
 
-    /**
-     * Returns the currently active (top-most) modal object.
-     * Useful for checking what is currently open.
-     */
-    const top = computed(() => {
-        return stack.value.length > 0 ? stack.value[stack.value.length - 1] : null;
-    });
-
-    watch(() => stack.value.length, (newCount) => {
-        if (newCount > 0) {
-            // Блокируем скролл: убираем прокрутку и предотвращаем прыжок контента
-            document.body.style.overflow = 'hidden';
-            document.body.style.paddingRight = `${window.innerWidth - document.documentElement.clientWidth}px`;
-        } else {
-            // Размораживаем скролл
-            document.body.style.overflow = '';
-            document.body.style.paddingRight = '';
-        }
-    }, { immediate: true });
+    const modals = computed(() => stack.value);
+    const top = computed(() => (stack.value.length ? stack.value.at(-1) : null));
+    const hasOpenModals = computed(() => stack.value.length > 0);
 
     return {
-        modals: computed(() => stack.value),
+        modals,
         open,
         close,
         closeById,
@@ -118,6 +80,6 @@ export const useModal = () => {
         replace,
         updateProps,
         top,
-        hasOpenModals: computed(() => stack.value.length > 0),
+        hasOpenModals,
     };
 };

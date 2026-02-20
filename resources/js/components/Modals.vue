@@ -1,34 +1,57 @@
 <script setup>
+import { computed, onBeforeUnmount, onMounted } from 'vue';
 import { useModal } from '@/composables/useModal';
 
 const props = defineProps({
     closeOnBackdrop: {
         type: Boolean,
-        default: false
-    }
+        default: false,
+    },
 });
 
-const { modals, closeById, hasOpenModals } = useModal();
+const { modals, closeById, hasOpenModals, close, top } = useModal();
+
+const canCloseByEscape = computed(() => top.value?.options?.closeOnEscape !== false);
 
 const handleBackdropClick = (modalId) => {
     if (props.closeOnBackdrop) {
-        closeById(modalId);
+        closeById(modalId, 'backdrop');
     }
 };
+
+const onKeydown = (event) => {
+    if (event.key === 'Escape' && canCloseByEscape.value) {
+        close('escape');
+    }
+};
+
+onMounted(() => window.addEventListener('keydown', onKeydown));
+onBeforeUnmount(() => window.removeEventListener('keydown', onKeydown));
 </script>
 
 <template>
     <Teleport to="body">
-        <div class="fixed inset-0 z-1000 pointer-events-none" :class="{ 'pointer-events-auto': hasOpenModals }">
+        <div
+            class="fixed inset-0 z-1000 pointer-events-none"
+            :class="{ 'pointer-events-auto': hasOpenModals }"
+            aria-live="polite"
+        >
             <Transition name="fade">
-                <div v-if="hasOpenModals" class="absolute inset-0 bg-black/50 backdrop-blur" aria-hidden="true">
-                </div>
+                <div
+                    v-if="hasOpenModals"
+                    class="absolute inset-0 bg-black/50 backdrop-blur"
+                    aria-hidden="true"
+                />
             </Transition>
+
             <TransitionGroup name="modal" tag="div" class="absolute inset-0 flex items-center justify-center p-4">
-                <div v-for="(modal, index) in modals" :key="modal.id"
+                <div
+                    v-for="(modal, index) in modals"
+                    :key="modal.id"
                     class="absolute inset-0 flex items-center justify-center pointer-events-none"
-                    :style="{ zIndex: 100 + index }">
-                    <div class="absolute inset-0 pointer-events-auto" @click="handleBackdropClick(modal.id)"></div>
+                    :style="{ zIndex: 100 + index }"
+                >
+                    <div class="absolute inset-0 pointer-events-auto" @click="handleBackdropClick(modal.id)" />
 
                     <div class="relative z-10 pointer-events-auto transition-all w-full flex justify-center">
                         <component :is="modal.component" v-bind="modal.props" @close="closeById(modal.id)" />

@@ -34,7 +34,6 @@
 </template>
 
 <script setup>
-import { BanIcon, CheckCheckIcon, CircleAlertIcon, InfoIcon, Loader2Icon, Trash2Icon, XIcon } from 'lucide-vue-next';
+import { BanIcon, CheckCheckIcon, CircleAlertIcon, InfoIcon, Loader2Icon, XIcon } from 'lucide-vue-next';
 import { Toaster } from 'vue-sonner';
-import 'vue-sonner/style.css';
 </script>
