@@ -1,4 +1,4 @@
-import { ref, computed, markRaw } from 'vue';
+import { ref, computed, markRaw, watch } from 'vue';
 
 // Singleton state (shared across all components)
 const stack = ref([]);
@@ -96,6 +96,18 @@ export const useModal = () => {
     const top = computed(() => {
         return stack.value.length > 0 ? stack.value[stack.value.length - 1] : null;
     });
+
+    watch(() => stack.value.length, (newCount) => {
+        if (newCount > 0) {
+            // Блокируем скролл: убираем прокрутку и предотвращаем прыжок контента
+            document.body.style.overflow = 'hidden';
+            document.body.style.paddingRight = `${window.innerWidth - document.documentElement.clientWidth}px`;
+        } else {
+            // Размораживаем скролл
+            document.body.style.overflow = '';
+            document.body.style.paddingRight = '';
+        }
+    }, { immediate: true });
 
     return {
         modals: computed(() => stack.value),

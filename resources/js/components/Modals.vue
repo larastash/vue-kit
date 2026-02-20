@@ -19,7 +19,7 @@ const handleBackdropClick = (modalId) => {
 
 <template>
     <Teleport to="body">
-        <div class="fixed inset-0 z-[9999] pointer-events-none" :class="{ 'pointer-events-auto': hasOpenModals }">
+        <div class="fixed inset-0 z-1000 pointer-events-none" :class="{ 'pointer-events-auto': hasOpenModals }">
             <Transition name="fade">
                 <div v-if="hasOpenModals" class="absolute inset-0 bg-black/50 backdrop-blur" aria-hidden="true">
                 </div>
