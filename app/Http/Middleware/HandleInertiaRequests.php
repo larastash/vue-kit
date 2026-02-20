@@ -38,13 +38,13 @@ class HandleInertiaRequests extends Middleware
         return [
             ...parent::share($request),
             'auth' => [
-                'user' => function () use ($request): array {
+                'user' => function () use ($request): ?array {
                     if (!$request->user()) {
-                        return [];
+                        return null;
                     }
 
                     return [
-                        ...$request->user(),
+                        ...$request->user()->toArray(),
                     ];
                 },
             ],
