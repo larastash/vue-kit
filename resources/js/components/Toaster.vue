@@ -13,7 +13,7 @@
         }
     }">
         <template #loading-icon>
-            <Loader2Icon class="shrink-0 size-4 text-gray-500 animate-[spin_2s_linear_infinite]" />
+            <Loader2Icon class="shrink-0 size-4 text-gray-500 animate-loader" />
         </template>
         <template #success-icon>
             <CheckCheckIcon class="shrink-0 size-4 text-success-500" />
