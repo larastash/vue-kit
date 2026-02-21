@@ -3,7 +3,6 @@ import { defineStore } from 'pinia';
 export const validThemes = ['light', 'dark', 'system'];
 export const defaultTheme = 'system';
 
-// Флаги инициализации живут вне state — они не должны персистироваться.
 let initialized = false;
 let removeSystemListener = null;
 

@@ -6,6 +6,8 @@ import Scope from '@/components/Scope.vue';
 import ExampleModal from '@/components/modals/ExampleModal.vue';
 import { useTheme } from '@/composables/useTheme';
 import { useModal } from '@/composables/useModal';
+import { Bookmark02FreeIcons } from '@hugeicons/core-free-icons/index';
+import { HugeiconsIcon } from '@hugeicons/vue';
 
 defineProps({
     quote: String,
@@ -47,7 +49,10 @@ const showModal = () => {
             <button @click="showModal" class="block text-black dark:text-white">
                 <SquareArrowOutUpRightIcon class="shrink-0 size-5" />
             </button>
-            <button @click="toggleTheme" class="block text-black dark:text-white animate-loader">
+            <button @click="showModal" class="block text-black dark:text-white">
+                <HugeiconsIcon :icon="Bookmark02FreeIcons" :strokeWidth="2" class="shrink-0 size-5" />
+            </button>
+            <button @click="toggleTheme" class="block text-black dark:text-white">
                 <SunIcon v-if="currentTheme === 'light'" class="shrink-0 size-5" />
                 <MoonIcon v-if="currentTheme === 'dark'" class="shrink-0 size-5" />
                 <SunMoonIcon v-if="currentTheme === 'system'" class="shrink-0 size-5" />
