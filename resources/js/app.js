@@ -7,7 +7,6 @@ import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { createPinia } from 'pinia';
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate';
 import { ZiggyVue } from 'ziggy-js';
-import { useThemeStore } from '@/stores/themeStore';
 
 const pinia = createPinia();
 pinia.use(piniaPluginPersistedstate);
