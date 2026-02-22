@@ -49,9 +49,6 @@ const showModal = () => {
             <button @click="showModal" class="block text-black dark:text-white">
                 <SquareArrowOutUpRightIcon class="shrink-0 size-5" />
             </button>
-            <button @click="showModal" class="block text-black dark:text-white">
-                <HugeiconsIcon :icon="Bookmark02FreeIcons" :strokeWidth="2" class="shrink-0 size-5" />
-            </button>
             <button @click="toggleTheme" class="block text-black dark:text-white">
                 <SunIcon v-if="currentTheme === 'light'" class="shrink-0 size-5" />
                 <MoonIcon v-if="currentTheme === 'dark'" class="shrink-0 size-5" />
