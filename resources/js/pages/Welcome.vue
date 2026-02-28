@@ -6,8 +6,6 @@ import Scope from '@/components/Scope.vue';
 import ExampleModal from '@/components/modals/ExampleModal.vue';
 import { useTheme } from '@/composables/useTheme';
 import { useModal } from '@/composables/useModal';
-import { Bookmark02FreeIcons } from '@hugeicons/core-free-icons/index';
-import { HugeiconsIcon } from '@hugeicons/vue';
 
 defineProps({
     quote: String,
