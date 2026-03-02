@@ -1,9 +1,12 @@
 <script setup>
+import { onMounted } from 'vue';
 import Modals from '@/components/Modals.vue';
 import Toaster from '@/components/Toaster.vue';
 import { useFlashToasts } from '@/composables/useFlash';
 
-useFlashToasts();
+onMounted(() => {
+    useFlashToasts();
+});
 </script>
 
 <template>
